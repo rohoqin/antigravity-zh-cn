@@ -182,6 +182,9 @@ async function main() {
         return;
       }
       console.log('✅ 已开启官方更新自动补装！');
+      if (res.tmpDirWarning) {
+        console.warn(`⚠️  ${res.tmpDirWarning}`);
+      }
       if (res.platform === 'darwin') {
         console.log(`  - 监听目标: ${res.watchPath}`);
         console.log(`  - 监听配置: ${res.plistPath}`);

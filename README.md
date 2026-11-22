@@ -1,6 +1,26 @@
 # 反重力中文汉化插件（antigravity-zh-cn）
 
-轻量纯净版 **Google Antigravity 2.x 桌面端** 简体中文汉化工具——支持 **macOS / Windows**，零第三方依赖，一键汉化，一键无损还原，可选开启官方更新后自动补装。
+轻量纯净版 **Google Antigravity 2.x 桌面端** 简体中文汉化工具——支持 **macOS / Windows**，零第三方依赖，直接丢给 AI 一句话即可自动安装与无损还原，可选开启官方更新后自动补装。
+
+---
+
+## 🤖 一句话交给 AI 安装（最推荐）
+
+不需要手动敲命令，直接把下面这句话发给你的 **Antigravity / Claude Code / Codex**：
+
+```text
+请帮我把 https://github.com/rohoqin/antigravity-zh-cn 克隆到 ~/antigravity-zh-cn，阅读其中的 AGENTS.md，帮我安装反重力中文汉化插件并开启更新自动补装。
+```
+
+如需恢复官方英文原版，直接发给 AI：
+
+```text
+请阅读 ~/antigravity-zh-cn/AGENTS.md，帮我关闭更新自动补装并还原 Antigravity 为官方英文原版。
+```
+
+> 仓库内置了 AI 专用操作规范 [AGENTS.md](AGENTS.md)，智能体会自动完成环境预检、原版备份、安装校验与防踩坑检查，装完后按提示重启一次 Antigravity 即可。
+
+---
 
 > **平台验证状态说明**：
 > - **macOS**：已在真实 macOS 环境（Antigravity `v2.34.0`）完成安装、还原与副本校验实测。
