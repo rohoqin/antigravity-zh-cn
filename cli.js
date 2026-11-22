@@ -135,7 +135,9 @@ async function main() {
   }
 
   if (cmd === 'install') {
-    console.log(`🚀 [${PLUGIN_NAME} v${PLUGIN_VERSION}] 正在安装简体中文汉化...`);
+    if (!flags.json) {
+      console.log(`🚀 [${PLUGIN_NAME} v${PLUGIN_VERSION}] 正在安装简体中文汉化...`);
+    }
     const res = await install(opts);
     if (flags.json) {
       console.log(JSON.stringify(res, null, 2));
@@ -153,7 +155,9 @@ async function main() {
   }
 
   if (cmd === 'restore') {
-    console.log(`🔄 [${PLUGIN_NAME} v${PLUGIN_VERSION}] 正在还原为官方英文原版...`);
+    if (!flags.json) {
+      console.log(`🔄 [${PLUGIN_NAME} v${PLUGIN_VERSION}] 正在还原为官方英文原版...`);
+    }
     const res = await restore(opts);
     if (flags.json) {
       console.log(JSON.stringify(res, null, 2));

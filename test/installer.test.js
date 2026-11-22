@@ -368,9 +368,10 @@ test('cross-platform path discovery and auto-watch dry-run generation for macOS 
   });
   assert.ok(winCandidates.some(p => p.endsWith(path.join('Programs', 'antigravity', 'resources', 'app.asar'))));
 
+  assert.equal(validateNodeVersion('18.0.0').ok, true);
   assert.equal(validateNodeVersion('22.4.0').ok, true);
   assert.equal(validateNodeVersion('24.14.0').ok, true);
-  assert.equal(validateNodeVersion('20.11.0').ok, false);
+  assert.equal(validateNodeVersion('16.20.0').ok, false);
 
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ag-zhcn-watch-'));
   try {
@@ -405,7 +406,41 @@ test('cross-platform path discovery and auto-watch dry-run generation for macOS 
     });
     assert.equal(winRes.ok, true);
     assert.ok(fs.existsSync(winRes.scriptPath));
-    assert.ok(fs.readFileSync(winRes.scriptPath, 'utf8').includes('intentionallyRestored'));
+    const winPs1 = fs.readFileSync(winRes.scriptPath, 'utf8');
+    assert.ok(winPs1.includes('intentionallyRestored'));
+    assert.ok(winPs1.includes('-join [Environment]::NewLine'));
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('cli.js --json outputs pure valid JSON for check, install, status, and restore', async () => {
+  const { execFileSync } = require('node:child_process');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ag-zhcn-cli-'));
+  const stateDir = path.join(tmp, 'state');
+  try {
+    const targetAsar = await createSyntheticAsar(tmp);
+    const cliPath = path.resolve(__dirname, '..', 'cli.js');
+    const env = Object.assign({}, process.env, { AG_ZH_STATE_DIR: stateDir });
+
+    const runJson = (args) => JSON.parse(
+      execFileSync(process.execPath, [cliPath, ...args, '--path', targetAsar, '--json'], { env, encoding: 'utf8' })
+    );
+
+    const checkOut = runJson(['check']);
+    assert.equal(checkOut.ok, true);
+
+    const installOut = runJson(['install']);
+    assert.equal(installOut.ok, true);
+    assert.equal(installOut.patchedMainMenu, true);
+
+    const statusOut = runJson(['status']);
+    assert.equal(statusOut.patched, true);
+    assert.equal(statusOut.patchedMainMenu, true);
+
+    const restoreOut = runJson(['restore']);
+    assert.equal(restoreOut.ok, true);
+    assert.equal(restoreOut.mode, 'backup');
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }
