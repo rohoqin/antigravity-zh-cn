@@ -1,0 +1,37 @@
+{
+  "name": "antigravity-zh-cn",
+  "version": "1.0.0",
+  "description": "反重力中文汉化插件 — Antigravity 2.x 轻量纯净简体中文汉化工具（支持 macOS / Windows，一键安装、无损还原、可选更新自动补装）",
+  "main": "cli.js",
+  "bin": {
+    "antigravity-zh-cn": "./cli.js"
+  },
+  "scripts": {
+    "check": "node cli.js check",
+    "install:zh": "node cli.js install",
+    "status": "node cli.js status",
+    "restore": "node cli.js restore",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=22.4.0"
+  },
+  "keywords": [
+    "antigravity",
+    "chinese",
+    "zh-cn",
+    "i18n",
+    "localization",
+    "反重力",
+    "汉化"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rohoqin/antigravity-zh-cn.git"
+  },
+  "homepage": "https://github.com/rohoqin/antigravity-zh-cn#readme",
+  "bugs": {
+    "url": "https://github.com/rohoqin/antigravity-zh-cn/issues"
+  },
+  "license": "MIT"
+}
