@@ -4,21 +4,21 @@
 
 ---
 
-## 🤖 一句话交给 AI 安装（最推荐）
+## 🤖 一句话在反重力里自动安装（最推荐）
 
-不需要手动敲命令，直接把下面这句话发给你的 **Antigravity / Claude Code / Codex**：
+不需要手动敲命令，直接把下面这句话发给你的 **反重力（Antigravity）**：
 
 ```text
 请帮我把 https://github.com/rohoqin/antigravity-zh-cn 克隆到 ~/antigravity-zh-cn，阅读其中的 AGENTS.md，帮我安装反重力中文汉化插件并开启更新自动补装。
 ```
 
-如需恢复官方英文原版，直接发给 AI：
+如需恢复官方英文原版，直接发给反重力：
 
 ```text
 请阅读 ~/antigravity-zh-cn/AGENTS.md，帮我关闭更新自动补装并还原 Antigravity 为官方英文原版。
 ```
 
-> 仓库内置了 AI 专用操作规范 [AGENTS.md](AGENTS.md)，智能体会自动完成环境预检、原版备份、安装校验与防踩坑检查，装完后按提示重启一次 Antigravity 即可。
+> 仓库内置了反重力智能体专用操作规范 [AGENTS.md](AGENTS.md)，反重力会自动完成环境预检、原版备份、安装校验与防踩坑检查，装完后按提示重启一次客户端即可。
 
 ---
 
