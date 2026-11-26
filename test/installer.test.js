@@ -416,6 +416,7 @@ test('cross-platform path discovery and auto-watch dry-run generation for macOS 
     assert.ok(winPs1.includes('-join [Environment]::NewLine'));
     assert.ok(winPs1.includes("ProcessName -ieq 'Antigravity'"));
     assert.ok(winPs1.includes("$ErrorActionPreference = 'Continue'"));
+    assert.ok(winPs1.includes('while ($waited -lt 280)'));
     assert.ok(winPs1.includes('.notified-version'));
     const winVbs = fs.readFileSync(winRes.vbsPath, 'utf8');
     assert.ok(winVbs.includes('WScript.Shell'));

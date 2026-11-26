@@ -110,7 +110,7 @@ node cli.js restore
 
 - **macOS**：创建系统 `LaunchAgent` 监听 `Antigravity.app/Contents/Info.plist` 变化（不轮询、不改写官方更新器）。官方更新替换文件后，后台会自动尝试补装并弹出系统通知。
   - **macOS 13+ 权限说明**：系统「应用管理（App Management）」默认会拦截后台 `launchd` 脚本修改其他 `.app` 包。若被拦截，通知会提示你在反重力里一键补装或双击 `安装汉化.command`；如希望全静默补装，可在「系统设置 → 隐私与安全性 → 应用管理」中放行后生效。
-- **Windows**：注册普通用户可用的 5 分钟无弹窗静默计划任务（`AntigravityZhCNAutoRepatch`，通过 `wscript.exe` 无黑框拉起，无需管理员权限）。已汉化时毫秒级静默退出；检测到官方更新时，若 `Antigravity.exe` 仍在运行会发一次托盘气球提醒，待你退出客户端后下一个 5 分钟周期内自动完成补装。
+- **Windows**：注册普通用户可用的无黑框静默后台检测任务（`AntigravityZhCNAutoRepatch`，通过 `wscript.exe` 无闪屏拉起，无需管理员权限）。已汉化时毫秒级静默退出；检测到官方更新且 `Antigravity.exe` 仍在运行时，会发一次托盘气球提醒并每秒监听进程退出——**你一退出客户端，2~3 秒内立刻自动补装完成并弹窗提示重新打开**。
 - 运行 `node cli.js restore` 主动卸载后，自动补装脚本会自动跳过，不会和你对抗；运行 `node cli.js auto-watch off` 可彻底移除监听。
 
 ---
