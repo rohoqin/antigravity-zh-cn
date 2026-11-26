@@ -1,6 +1,6 @@
 {
   "name": "antigravity-zh-cn",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "反重力中文汉化插件 — Antigravity 2.x 轻量纯净简体中文汉化工具（支持 macOS / Windows，一键安装、无损还原、可选更新自动补装）",
   "main": "cli.js",
   "bin": {

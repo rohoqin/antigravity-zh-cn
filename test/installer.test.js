@@ -390,6 +390,9 @@ test('cross-platform path discovery and auto-watch dry-run generation for macOS 
     assert.equal(macRes.ok, true);
     assert.ok(fs.existsSync(macRes.plistPath));
     assert.ok(fs.existsSync(macRes.scriptPath));
+    const macSh = fs.readFileSync(macRes.scriptPath, 'utf8');
+    assert.ok(macSh.includes('BLOCKED_TCC'));
+    assert.ok(macSh.includes('--brand'));
     assert.ok(fs.readFileSync(macRes.plistPath, 'utf8').includes('Info.plist'));
     assert.equal(getAutoWatchStatus({ platform: 'darwin', homeDir: tmp, stateDir: path.join(tmp, 'state-mac') }).configured, true);
 
@@ -405,10 +408,35 @@ test('cross-platform path discovery and auto-watch dry-run generation for macOS 
       dryRun: true
     });
     assert.equal(winRes.ok, true);
+    assert.equal(winRes.trigger, 'MINUTE(5)');
     assert.ok(fs.existsSync(winRes.scriptPath));
+    assert.ok(fs.existsSync(winRes.vbsPath));
     const winPs1 = fs.readFileSync(winRes.scriptPath, 'utf8');
     assert.ok(winPs1.includes('intentionallyRestored'));
     assert.ok(winPs1.includes('-join [Environment]::NewLine'));
+    assert.ok(winPs1.includes("ProcessName -ieq 'Antigravity'"));
+    assert.ok(winPs1.includes("$ErrorActionPreference = 'Continue'"));
+    assert.ok(winPs1.includes('.notified-version'));
+    const winVbs = fs.readFileSync(winRes.vbsPath, 'utf8');
+    assert.ok(winVbs.includes('WScript.Shell'));
+    assert.equal(getAutoWatchStatus({ platform: 'win32', homeDir: tmp, stateDir: path.join(tmp, 'state-win') }).configured, true);
+
+    disableAutoWatch({ platform: 'win32', homeDir: tmp, stateDir: path.join(tmp, 'state-win'), dryRun: true });
+    assert.equal(getAutoWatchStatus({ platform: 'win32', homeDir: tmp, stateDir: path.join(tmp, 'state-win') }).configured, false);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('lockfile is stored in stateDir/locks instead of app installation directory', async () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ag-zhcn-lock-'));
+  const stateDir = path.join(tmp, 'state');
+  try {
+    const targetAsar = await createSyntheticAsar(tmp);
+    await install({ asarPath: targetAsar, stateDir });
+    assert.equal(fs.existsSync(`${targetAsar}.zh-cn.lock`), false);
+    assert.ok(fs.existsSync(path.join(stateDir, 'locks')));
+    assert.equal(fs.readdirSync(path.join(stateDir, 'locks')).length, 0);
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }

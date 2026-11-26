@@ -23,8 +23,8 @@
 ---
 
 > **平台验证状态说明**：
-> - **macOS**：已在真实 macOS 环境（Antigravity `v2.34.0`）完成安装、还原与副本校验实测。
-> - **Windows**：**⚠️ Windows 真机尚未验证**（当前仅在 macOS 环境下通过跨平台路径解析、`.bat` 格式与脚本生成单元测试；欢迎 Windows 用户实机测试并反馈）。
+> - **macOS**：已在真实 macOS 环境（Antigravity `v2.34.0` / `v2.35.2`）完成安装、还原与副本校验实测。
+> - **Windows**：基础安装与中文界面已获社区用户实机验证可用；`v1.1.0` 升级后的 **5 分钟免管理员自动补装任务** 尚未在 Windows 真机完成完整更新周期实测，欢迎 Windows 用户反馈。
 
 > **适用范围说明**：
 > - 本工具适用于 **Antigravity 2.x 桌面端**（Electron 客户端）。
@@ -64,7 +64,7 @@
 4. （可选）希望以后官方自动更新后自动补装中文：双击 **`开启更新自动补装.command`** 或运行 `node cli.js auto-watch on`。
 5. 如需恢复官方英文原版：双击 **`还原英文.command`** 或运行 `node cli.js restore`，再重启客户端即可。
 
-### Windows 使用方法（⚠️ 真机尚未验证）
+### Windows 使用方法
 1. 克隆或下载本仓库到本地：
    ```powershell
    git clone https://github.com/rohoqin/antigravity-zh-cn.git
@@ -72,8 +72,9 @@
    ```
 2. **先完全退出 Antigravity**（包括右下角系统托盘图标右键“退出”，避免 `app.asar` 被占用）。
 3. **双击运行 `安装汉化.bat`**（或在终端运行 `node cli.js install`）。
-4. 重新打开 Antigravity，界面即切换为简体中文。
-5. 如需恢复官方英文原版：完全退出 Antigravity 后，双击 **`还原英文.bat`** 或运行 `node cli.js restore`。
+4. （可选）双击 **`开启更新自动补装.bat`** 或运行 `node cli.js auto-watch on`（免管理员权限，每 5 分钟静默检测一次）。
+5. 重新打开 Antigravity，界面即切换为简体中文。
+6. 如需恢复官方英文原版：完全退出 Antigravity 后，双击 **`还原英文.bat`** 或运行 `node cli.js restore`。
 
 ---
 
@@ -107,8 +108,9 @@ node cli.js restore
 
 ## 更新后自动补装原理（`auto-watch`）
 
-- **macOS**：创建系统 `LaunchAgent` 监听 `Antigravity.app/Contents/Info.plist` 变化（不轮询、不改写官方更新器）。官方更新替换文件后，后台检测若补丁已失效且你未主动卸载，会自动补装并弹出系统通知提醒重启生效。
-- **Windows**：注册用户登录触发的计划任务（`AntigravityZhCNAutoRepatch`），检测到更新覆盖后自动补装。
+- **macOS**：创建系统 `LaunchAgent` 监听 `Antigravity.app/Contents/Info.plist` 变化（不轮询、不改写官方更新器）。官方更新替换文件后，后台会自动尝试补装并弹出系统通知。
+  - **macOS 13+ 权限说明**：系统「应用管理（App Management）」默认会拦截后台 `launchd` 脚本修改其他 `.app` 包。若被拦截，通知会提示你在反重力里一键补装或双击 `安装汉化.command`；如希望全静默补装，可在「系统设置 → 隐私与安全性 → 应用管理」中放行后生效。
+- **Windows**：注册普通用户可用的 5 分钟无弹窗静默计划任务（`AntigravityZhCNAutoRepatch`，通过 `wscript.exe` 无黑框拉起，无需管理员权限）。已汉化时毫秒级静默退出；检测到官方更新时，若 `Antigravity.exe` 仍在运行会发一次托盘气球提醒，待你退出客户端后下一个 5 分钟周期内自动完成补装。
 - 运行 `node cli.js restore` 主动卸载后，自动补装脚本会自动跳过，不会和你对抗；运行 `node cli.js auto-watch off` 可彻底移除监听。
 
 ---

@@ -188,10 +188,12 @@ async function main() {
       if (res.platform === 'darwin') {
         console.log(`  - 监听目标: ${res.watchPath}`);
         console.log(`  - 监听配置: ${res.plistPath}`);
-        console.log('  - 说明: 以后 Antigravity 自动更新覆盖文件后，后台会自动补装中文并弹出系统通知。');
+        console.log('  - 说明: 以后 Antigravity 自动更新覆盖文件后，后台会自动尝试补装中文并弹出系统通知。');
+        console.log('  - 权限提示 (macOS 13+): 若后台被系统「应用管理」拦截，通知会提示你一键补装；也可在「系统设置 → 隐私与安全性 → 应用管理」授权后实现全静默补装。');
       } else if (res.platform === 'win32') {
-        console.log(`  - 计划任务: ${res.taskName}（用户登录时自动检测并补装）`);
+        console.log(`  - 计划任务: ${res.taskName}（每 5 分钟轻量检测一次，免管理员权限）`);
         console.log(`  - 执行脚本: ${res.scriptPath}`);
+        console.log('  - 说明: 检测到官方更新后，若 Antigravity 正在运行会先温和提示；退出客户端后下个检查周期自动静默补装。');
       }
       return;
     }
